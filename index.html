@@ -10,7 +10,7 @@
     <h1>Days Until Summit</h1>
     <p id="id-result">Some paragraph...</p>
     <script>
-        const now = Date.now();
+        const now = new Date();
         let result;
         if (now.getYear() !== 2023 || now.getMonth() > 7) {
             result = 'Summit date has passed.'
