@@ -2,4 +2,16 @@
 <title>Days Until Summit</title>
 <meta charset="UTF-8">
 <h1>Days Until Summit
-<p>Some paragraph...
+<p id="id-result">Some paragraph...
+<script>
+    const now = Date.now();
+    let result;
+    if (now.getYear() !== 2023 || now.getMonth() > 7) {
+        result = 'Summit date has passed.'
+    } else if (now.getMonth() === 6) {
+        result = 31 + 31 - now.getDate();
+    } else {
+        result = 31 - now.getDate();
+    }
+    document.querySelector('#id-result').textContent = result;
+</script>
