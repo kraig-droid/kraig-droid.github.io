@@ -12,7 +12,7 @@
     <script>
         const now = new Date();
         let result;
-        if (now.getYear() !== 2023 || now.getMonth() > 7) {
+        if (now.getFullYear() !== 2023 || now.getMonth() > 7) {
             result = 'Summit date has passed.'
         } else if (now.getMonth() === 6) {
             result = 31 + 31 - now.getDate();
