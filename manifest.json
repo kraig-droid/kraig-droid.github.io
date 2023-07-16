@@ -1,0 +1,12 @@
+{
+  "name": "3, 2, 1, Travel",
+  "icons": [
+    {
+      "src": "icons/512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "https://kraig-droid.github.io/index.html",
+  "display": "standalone"
+}
