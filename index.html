@@ -2,25 +2,136 @@
 <html lang="en">
 
 <head>
-    <title>Days Until Summit</title>
+    <title>Days Until Vacay</title>
     <meta charset="UTF-8">
-    <link rel="manifest" href="manifest.json">
+    <!-- <link rel="manifest" href="manifest.json"> -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montseratt">
+    <style>
+        body {
+            font-family: Montseratt, sans-serif;
+        }
+
+        table {
+            border-collapse: collapse;
+            border: 2px solid rgb(200, 200, 200);
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+        }
+
+        td,
+        th {
+            border: 1px solid rgb(190, 190, 190);
+            padding: 10px 20px;
+        }
+
+        th {
+            background-color: rgb(235, 235, 235);
+        }
+
+        td {
+            text-align: center;
+        }
+
+        tr:nth-child(even) td {
+            background-color: rgb(250, 250, 250);
+        }
+
+        tr:nth-child(odd) td {
+            background-color: rgb(245, 245, 245);
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Days Until Summit</h1>
-    <p id="id-result">Some paragraph...</p>
+    <h1>Mt. Kilimanjaro Trip</h1>
+    <table>
+        <tr>
+            <th>Event</th>
+            <th>Date</th>
+            <th>Days Until</th>
+        </tr>
+        <tr>
+            <td>Departure</td>
+            <td></td>
+            <td data-month="7" data-day="22">...calculating...</td>
+        </tr>
+        <tr>
+            <td>Start climb</td>
+            <td>Tue, Aug 22</td>
+            <td data-month="7" data-day="25">...calculating...</td>
+        </tr>
+        <tr>
+            <td>Summit</td>
+            <td>Tue, Aug 22</td>
+            <td data-month="7" data-day="31">...calculating...</td>
+        </tr>
+        <tr>
+            <td>Start safari</td>
+            <td>Tue, Sep 2</td>
+            <td data-month="8" data-day="2">...calculating...</td>
+        </tr>
+        <tr>
+            <td>Fly home</td>
+            <td>Tue, Aug 22</td>
+            <td data-month="8" data-day="6">...calculating...</td>
+        </tr>
+        <tr>
+            <td>Arrive home</td>
+            <td>Tue, Aug 22</td>
+            <td data-month="8" data-day="7">...calculating...</td>
+        </tr>
+    </table>
+
     <script>
         const now = new Date();
-        let result;
-        if (now.getFullYear() !== 2023 || now.getMonth() > 7) {
-            result = 'Summit date has passed.'
-        } else if (now.getMonth() === 6) {
-            result = 31 + 31 - now.getDate();
-        } else {
-            result = 31 - now.getDate();
+        function getDaysUntil(month, day) {
+            const m0 = Number(month);
+            const d0 = Number(day);
+            let result;
+
+            if (now.getFullYear() !== 2023) {
+                result = 'Wrong year! (This only works in 2023.)'
+            } else if (now.getMonth() > 8) {
+                result = ''
+            } else {
+                const nowMonth = now.getMonth();
+                const nowDay = now.getDate(); // getDay means day of week; here we use getDate for day of month
+                result = 0;
+                if (nowMonth === 6) {
+                    // if it's currently July
+                    result += 31 - nowDay;
+                    // if target date is in Sep
+                    if (m0 === 8) {
+                        result += 31;
+                    }
+                    result += d0;
+                } else if (nowMonth === 7) {
+                    // if it's currently August
+                    if (m0 === 8) {
+                        result += 31 - nowDay;
+                        result += d0;
+                    } else if (m0 === 7) {
+                        result += d0 - nowDay;
+                    }
+                } else if (nowMonth === 8) {
+                    // if it's currently September
+                    if (m0 < 8) {
+                        result = ''
+                    } else if (m0 === 8) {
+                        result = d0 - nowDay;
+                    }
+                };
+            };
+            return result;
         }
-        document.querySelector('#id-result').textContent = result;
+        document.querySelectorAll('td[data-month]').forEach(el => {
+            el.textContent = getDaysUntil(el.dataset.month, el.dataset.day);
+            const d = new Date(2023, el.dataset.month, el.dataset.day)
+            el.previousElementSibling.textContent = d.toLocaleDateString(
+                undefined,
+                { weekday: 'short', month: 'short', day: 'numeric' },
+            )
+        });
 
         const registerServiceWorker = async () => {
             if ("serviceWorker" in navigator) {
@@ -39,7 +150,7 @@
             }
         };
 
-        registerServiceWorker();
+        // registerServiceWorker();
     </script>
 </body>
 
