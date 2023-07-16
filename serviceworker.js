@@ -1,53 +1,80 @@
-// service-worker.js
+// Code copied or based on https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers
+const CACHE_NAME = "v1";
 
-// Define the cache name and the files to be cached
-const cacheName = 'TTOTravel';
-const cacheFiles = [
-//   '/',
-//   '/index.html',
-  '/icons/512.png'
-];
+const addResourcesToCache = async (resources) => {
+    const cache = await caches.open(CACHE_NAME);
+    await cache.addAll(resources);
+};
 
-// Install event - cache the static assets
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(cacheName)
-      .then(cache => cache.addAll(cacheFiles))
-      .then(() => self.skipWaiting())
-  );
+const putInCache = async (request, response) => {
+    const cache = await caches.open(CACHE_NAME);
+    await cache.put(request, response);
+};
+
+const cacheFirst = async ({ request, preloadResponsePromise, fallbackUrl }) => {
+    // First try to get the resource from the cache
+    const responseFromCache = await caches.match(request);
+    if (responseFromCache) {
+        return responseFromCache;
+    }
+
+    // Next try to use (and cache) the preloaded response, if it's there
+    const preloadResponse = await preloadResponsePromise;
+    if (preloadResponse) {
+        console.info("using preload response", preloadResponse);
+        putInCache(request, preloadResponse.clone());
+        return preloadResponse;
+    }
+
+    // Next try to get the resource from the network
+    try {
+        const responseFromNetwork = await fetch(request);
+        // response may be used only once
+        // we need to save clone to put one copy in cache
+        // and serve second one
+        putInCache(request, responseFromNetwork.clone());
+        return responseFromNetwork;
+    } catch (error) {
+        const fallbackResponse = await caches.match(fallbackUrl);
+        if (fallbackResponse) {
+            return fallbackResponse;
+        }
+        // when even the fallback response is not available,
+        // there is nothing we can do, but we must always
+        // return a Response object
+        return new Response("Network error happened", {
+            status: 408,
+            headers: { "Content-Type": "text/plain" },
+        });
+    }
+};
+
+// Enable navigation preload
+const enableNavigationPreload = async () => {
+    if (self.registration.navigationPreload) {
+        await self.registration.navigationPreload.enable();
+    }
+};
+
+self.addEventListener("activate", (event) => {
+    event.waitUntil(enableNavigationPreload());
 });
 
-// Fetch event - serve cached files when offline, otherwise fetch from the network
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // If the file is found in the cache, return it
-        if (response) {
-          return response;
-        }
+self.addEventListener("install", (event) => {
+    event.waitUntil(
+        addResourcesToCache([
+            "/",
+            "/index.html",
+        ]),
+    );
+});
 
-        // Otherwise, fetch the file from the network
-        return fetch(event.request)
-          .then(response => {
-            // If the response is valid, clone it and store it in the cache
-            if (response && response.status === 200 && response.type === 'basic') {
-              const responseToCache = response.clone();
-
-              caches.open(cacheName)
-                .then(cache => {
-                  cache.put(event.request, responseToCache);
-                });
-            }
-
-            return response;
-          })
-          .catch(() => {
-            // If fetching fails and the file is not found in the cache, return a fallback response
-            return new Response('Offline Page', {
-              headers: { 'Content-Type': 'text/html' }
-            });
-          });
-      })
-  );
+self.addEventListener("fetch", (event) => {
+    event.respondWith(
+        cacheFirst({
+            request: event.request,
+            preloadResponsePromise: event.preloadResponse,
+            fallbackUrl: "/index.html",
+        }),
+    );
 });
