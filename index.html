@@ -6,8 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link rel="manifest" href="manifest.json"> -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat">
-    <style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat"> -->
+    <!-- <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script> -->
+    <!-- <script src="https://cdn.tailwindcss.com/"></script> -->
+    <!-- <style>
         body {
             font-family: 'Montserrat', sans-serif;
         }
@@ -40,13 +43,13 @@
         tr:nth-child(odd) td {
             background-color: rgb(245, 245, 245);
         }
-    </style>
+    </style> -->
 </head>
 
-<body>
-    <h1>Mt. Kilimanjaro Trip</h1>
+<body class="container-fluid">
+    <h1 class="h1">Mt. Kilimanjaro Trip</h1>
     <h2>Dates</h2>
-    <table>
+    <table class="table">
         <tr>
             <th>Event</th>
             <th>Date</th>
@@ -84,12 +87,103 @@
         </tr>
     </table>
     <h2>Info</h2>
+    <p><a href="https://www.ultimatekilimanjaro.com/lemosho-route/">Lemosho Route Description</a></p>
     <p>
-        <a href="https://www.ultimatekilimanjaro.com/lemosho-route/">Lemosho Route Description</a>
-        <br>
-        <img style="max-width: 100vw; height: auto;" src="Ititnerarie_Lemosho-1024x854.png"
+        <img class="w-100 h-auto" src="kilimanjaro_lemosho.png"
             alt="profile of Lemosho route up Mt Kilimanjaro" width="2560" height="893">
     </p>
+    <table class="table">
+        <tr>
+            <th>Day</th>
+            <th>Start</th>
+            <th>Altitude</th>
+            <th>Stop</th>
+            <th>Altitude</th>
+            <th>Hours</th>
+            <th>Miles</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Londorossi Gate</td>
+            <td>7742</td>
+            <td>Mti Mkubwa</td>
+            <td>9498</td>
+            <td>3-4</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Mti Mkubwa</td>
+            <td>9498</td>
+            <td>Shira 1</td>
+            <td>11500</td>
+            <td>5-6</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Shira 1</td>
+            <td>11500</td>
+            <td>Moir Hut</td>
+            <td>13800</td>
+            <td>5-7</td>
+            <td>7</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Moir Hut<br>Lava Tower</td>
+            <td>13800<br>15190</td>
+            <td>Lava Tower<br>Barranco</td>
+            <td>15190<br>13044</td>
+            <td>4-5<br>2-3</td>
+            <td>4<br>2</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Barranco</td>
+            <td>13044</td>
+            <td>Karanga</td>
+            <td>13106</td>
+            <td>4-5</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Karanga</td>
+            <td>13106</td>
+            <td>Barafu</td>
+            <td>15331</td>
+            <td>4-5</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>Barafu<br>Uhuru Peak</td>
+            <td>15331<br>19341</td>
+            <td>Uhuru Peak<br>Mweka</td>
+            <td>19341<br>10065</td>
+            <td>7-8<br>4-6</td>
+            <td>3<br>7</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Mweka</td>
+            <td>10065</td>
+            <td>Mweka Gate</td>
+            <td>5380</td>
+            <td>3-4</td>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>43</td>
+        </tr>
+    </table>
 
     <script>
         const now = new Date();
@@ -161,6 +255,7 @@
 
         // registerServiceWorker();
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
 
 </html>
